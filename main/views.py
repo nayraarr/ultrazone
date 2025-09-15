@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.core import serializers
 from main.models import Product
@@ -27,7 +27,7 @@ def create_product(request):
     return render(request, 'create_product.html', context)
 
 def show_product(request, product_id):
-    product = Product.objects.get(pk=product_id)
+    product = get_object_or_404(pk=product_id)
     context = { 'product': product }
     return render(request, 'product.html', context)
         

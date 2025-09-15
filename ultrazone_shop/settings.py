@@ -34,6 +34,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["zita-nayra-ultrazone.pbp.cs.ui.ac.id","localhost", "127.0.0.1"]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://zita-nayra-ultrazone.pbp.cs.ui.ac.id"
+]
 
 # Application definition
 
