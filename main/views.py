@@ -1,16 +1,36 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.core import serializers
 from main.models import Product
+from main.forms import ProductForm
 
 def show_main(request):
+    product_list = Product.objects.all()
+    
     context = {
         'npm': '2406404913',
         'name': 'Zita Nayra Ardini',
-        'class' : 'PBP F'
+        'class' : 'PBP F',
+        'product_list': product_list
     }
 
     return render(request, "main.html", context)
+
+def create_product(request):
+    form = ProductForm(request.POST or None)
+    
+    if form.is_valid() and request.method == 'POST':
+        form.save()
+        redirect('main:show_main')
+    
+    context = { 'form': form }
+    return render(request, 'create_product.html', context)
+
+def show_product(request, product_id):
+    product = Product.objects.get(pk=product_id)
+    context = { 'product': product }
+    return render(request, 'product.html', context)
+        
 
 def show_xml(request):
     product_list = Product.objects.all()
