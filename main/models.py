@@ -12,7 +12,7 @@ class Product(models.Model):
     
     # nama, harga, deskripsi, thumbnail, kategori, is_featured, brand, rating
     name = models.CharField(max_length=100)
-    price = models.IntegerField
+    price = models.IntegerField()
     description = models.TextField()
     thumbnail = models.URLField(blank=True, null=True)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='accessories')
