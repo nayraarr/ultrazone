@@ -21,17 +21,19 @@ def create_product(request):
     
     if form.is_valid() and request.method == 'POST':
         form.save()
-        redirect('main:show_main')
+        return redirect('main:show_main')
     
-    context = { 'form': form }
+    context = {
+        'form': form
+    }
+    
     return render(request, 'create_product.html', context)
 
 def show_product(request, product_id):
-    product = get_object_or_404(pk=product_id)
+    product = get_object_or_404(Product, pk=product_id)
     context = { 'product': product }
-    return render(request, 'product.html', context)
+    return render(request, 'show_product.html', context)
         
-
 def show_xml(request):
     product_list = Product.objects.all()
     xml_data = serializers.serialize("xml", product_list)
