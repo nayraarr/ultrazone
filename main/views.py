@@ -4,10 +4,14 @@ from django.core import serializers
 from main.models import Product
 from main.forms import ProductForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+import datetime
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
-
+@login_required(login_url='/login')
 def show_main(request):
     product_list = Product.objects.all()
     
@@ -15,7 +19,8 @@ def show_main(request):
         'npm': '2406404913',
         'name': 'Zita Nayra Ardini',
         'class' : 'PBP F',
-        'product_list': product_list
+        'product_list': product_list,
+        'last_login': request.COOKIES.get('last_login', 'Never')
     }
 
     return render(request, "main.html", context)
@@ -33,6 +38,7 @@ def create_product(request):
     
     return render(request, 'create_product.html', context)
 
+@login_required(login_url='/login')
 def show_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     context = { 'product': product }
@@ -84,7 +90,9 @@ def login_user(request):
         if form.is_valid():
             user = form.get_user
             login(request, user)
-            return redirect('main:show_main')
+            response = HttpResponseRedirect(reverse("main:show_main"))
+            response.set_cookie('last_login', str(datetime.datetime.now()))
+            return response
     
     else:
         form = AuthenticationForm(request)
@@ -95,6 +103,8 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
+    response = HttpResponseRedirect(reverse('main:login'))
+    response.delete_cookie('last_login')
     return redirect('main:login')
 
 
