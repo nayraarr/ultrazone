@@ -15,6 +15,10 @@
   <button>+ Add Product</button>
 </a>
 
+<a href="{% url 'main:logout' %}">
+  <button>Logout</button>
+</a>
+
 <hr>
 
 {% if not product_list %}
