@@ -141,7 +141,7 @@ LINK : https://drive.google.com/drive/folders/1yy0W2ZkXW19boZpuxNJyBtv_kIFqgDZ2?
 </details>
 
 <details>
-<summary>Tugas Individu 4!</summary>
+<summary>Tugas Individu 4</summary>
 
 ### Apa itu Django AuthenticationForm? Jelaskan juga kelebihan dan kekurangannya.
 Django AuthenticationForm adalah formulir bawaan jango untuk mengautentikasi/memverifikasi identitas pengguna. Dalam pembuatannya, kita tidak perlu susah payah kembali membuat fieldnya satu", hanya cukup menggunakan bawaan django saja. Kelebihannya, dapat meningkatkan keamanan (tidak akan ada akses tidak sah), serta dapat menghindari pencurian identitas dan penyalahgunaan data pribadi. Kekurangannya, syarat password yang cukup rumit,  rentan phising dan malware, 
@@ -179,4 +179,39 @@ Hal ini dilakukan karena bisa saja ada product yang tidak tercatat user nya sehi
 from django.http import HttpResponseRedirect
 from django.urls import reverse`
 Setelah itu, pada saat login, kita set cookie nya pada tanggal dan jam saat ini.  Di show_main juga kita tambahkan key dan value dictionary yaitu `'last_login': request.COOKIES.get('last_login', 'Never')` dan saat logout kita hapus cookie nya dengan `response.delete_cookie('last_login')`. Setelah itu kita tampilkan last_login dengan menambah line `<h5>Sesi terakhir login: {{ last_login }}</h5>` pada template main.html agar bisa dilihat oleh client.
+</details>
+
+<details>
+<summary>Tugas Individu 5</summary>
+
+### Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+Jika terdapat dua atau lebih aturan css yang diterapkan pada element yang sama, maka deklarasi css yang memiliki prioritas yang lebih tinggi yang akan dilayani/diterapkan. CSS dengan prioritas tertinggi adalah css yang ditulis inline pada elemen HTML. Selector ini akan meng-override semua aturan css pada selector lainnya.Selector ini ditandai dengan penggunaan `style=` sebagai atribut elemen tersebut. Prioritas kedua adalah Id Selector. Selector ini akan menimpa aturan css yg diterapkan oleh class selector, attribut selector, pseudo class, elemen dan pseudo-elements, dan universal selector. Penggunaannnya ditandai oleh `#<nama-id>` untuk menerapkan aturan pada id elemen tersebut. Prioritas selanjutnya adalah class selector, attribut selector, dan pseudo-classes. Selector ini akan menimpa aturan css dari element, pseudo-element, dan universal selector. Penggunaannya ditandai oleh `.<nama-class>`, `[<nama-attribute>=<value>]`, `:hover`, dan `:focus`. Prioritas selanjutnya adalah element dan pseudo-element. Selector ini akan meinmpa universal selector. Penggunaanya ditandai oleh `<nama-element> { <nama-attribute>: <value>; }` dan 
+`<nama-elemen>::before { <nama-attribute>: <value>; }`. Prioritas terakhir adalah universal element. Selector ini akan ditimpa oleh selector lainnya jika ada 2 aturan css yanng diterapkan oleh suatu elemen. Penggunaan selector ini ditandai oleh `* { <nama-attribut>: <value>; <nama-attribut>: <value>; }`. 
+
+### Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design, serta jelaskan mengapa!
+Responsive design menjadi konsep yang penting karena mendukung konsistensi tampilan web dan meningkatkan pengalaman pengguna melalui seluruh device. Web membuat pengguna lebih nyaman, mudah menavigasi dan cepat diakses. Selain itu, responsive design meningkatkan efisiensi karena memudahkan develooper untuk mengelola situs dan tidak perlu membuat dua versi berbeda web untuk mobile dan desktop. Reponsive design juga meningkatkan kemungkinan user untuk melakukan tindakan yang diinginkan oleh developer (Boosts conversion rates), misalnya oembelian. Selain itu, responsive deign dapat memastikan aksesibilitas dan mengurangi biaya pembuatan. 
+// TODO
+-Contoh yang sudah menerapkan responsive design :
+-COntoh yang belum menerapkan responsive design:
+
+### Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+Padding adalah komponen css yang memberikan ruang di dalam elemen untuk mencegah konten menempel langsung ke tepi elemennya dan menambah area dalam elemen. Komponen padding memungkinkan kita mengontrol seberapa dekat konten dengan batas luar elemen. Sedangkan margin adalah komponen css yang memberikan ruang di luar border elemen untuk membuat jarak antar elemen agar tidak terlalu rapat. Perbedaannya dengan padding adalah margin mengatur jarak di luar elemen, sedangkan padding di dalam elemen. Adapun, border  adalah komponen css berupa tampilan garis yang terlihat atau tidak terlihat yang mengelilingi sebuah elemen, border ini akan membungkus 'konten dari elemen' dan 'paddingnya'. Border berguna untuk meberikan batas pemisah antar elemen. 
+-Pengimplementasian dari padding dapat dilakukan dengan mengatur atribut `padding, padding-top, padding-bottom, padding-left, padding-right` di dalam bagian selectornya.
+-Pengimplementasian dari margin dapat dilakukan dengan meengatur atribut `margin, margin-top, margin-bottom, margin-left, margin-right` di dalam bagian selectornya.
+-Pengimplementasian dari border dapat dilakukan dengan meengatur atribut `border, border-radius, border-style, border-color, border-width` di dalam bagian selectornya.
+Masing-masinga atribut di atas diletakkan dalam sebuah selector dengan format:
+`<nama-class/id/elemen>{
+    <nama-atibut>: <value>;
+}`
+Value yang dapat diterapkan bisa berupa ukuran absolut berupa px, cm, mm, in, pt, pc ataupun ukuran relatif seperti %, em, rem, vh, dll.
+
+### Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+-Konsep Flex Box Layout adalah cara layouting satu dimensi yang berfokus pada elemen itu sendiri (item) sebagai unit terkecil dair susunan layoutnya. Elemennya disebut sebagai flex items dan secara keseluruhan disebut sebagai flex container. Konsep ini cocok digunakan untuk mengatur selemen dalam satu baris atau satu kolom saja. Contoh penggunaanya adalah ketika membuat menu navigasi secara horizontal/vertikal.
+-Konsep Grid Layout adalah cara layouting dua dimensi yang direpresentasikan oleh baris dan kolom. Banyaknya kolom dan baris pada konsep grid perlu didefinisikan dahulu menggunakan `grid-template-columns` dan `grid-template-rows`. Elemen nya disebut sebagai grid items dan secara keseluruhan layoutingnya disebut grid container. Grid layout cocok diterapkan pada strukytur halaman yang kompleks dan membutuhkan penempatan elemen yang presisi pada suatu baris/kolom. Contoh penggunaannya adalah ketika membuat layout dari website yang membutuhkan bagian header, sidebar, maincontent, dan footer, atau penataan dalam produk e-commerce.
+
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+1. Implementasikan fungsi untuk menghapus dan mengedit product.
+
+
+2. Kustomisasi desain pada template HTML yang telah dibuat.
 </details>
