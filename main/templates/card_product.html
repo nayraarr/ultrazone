@@ -9,7 +9,7 @@
         </a>
 
         <!-- Badge jenis produk -->
-        <span class="absolute top-3 left-3 bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-lg">
+        <span class="absolute top-3 left-3 bg-[#b0183ed7] text-white text-xs font-semibold px-3 py-1 rounded-lg">
             {{ product.get_category_display }}
         </span>
 
@@ -24,10 +24,11 @@
     <div class="px-5 pb-5">
       <!-- Product Name -->
       <h3 class="text-lg font-semibold text-gray-900 mb-3 line-clamp-2 leading-tight">
-        <a href="{% url 'main:show_product' product.id %}" class="hover:text-green-600 transition-colors">
-          {{ product.name}}
+        <a href="{% url 'main:show_product' product.id %}" class="hover:text-[#B0183D] transition-colors">
+          {{ product.name }}
         </a>
       </h3>
+
 
       <!-- Rating -->
       <div class="flex items-center mt-2.5 mb-5">

@@ -211,7 +211,10 @@ Value yang dapat diterapkan bisa berupa ukuran absolut berupa px, cm, mm, in, pt
 
 ### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
 1. Implementasikan fungsi untuk menghapus dan mengedit product.
-
+Pada template card tiap produk, buat button yang mengarah pada function edit_product dan delete_product di aplikasi main. Tentunya diberikan syarat bahwa akan ditampilkan jika user terdaftar dan produk tsb adalah milik usernya. Template juga akan mem-parsing id dari produj
+-Pada edit_product, dicari produk dgn id tsb lalu ditampilkan dengan productForm. Jika perubahan sudah selesai dan requestnya menjadi POST, maka produk tersebut akan disimpan kembali ke database ulang lalu diarahkan ke halaman utama lagi. Jika belum POST, maka tampilan nya berupa form dari Productnya dengan merender edit_product.html.
+-Pada delete_product, dicari produk dengan id yang diberikan. Lalu tinggal menggunakan `.delete` untuk menghapus setelah itu akan diarahkan kembali ke halaman utama.
 
 2. Kustomisasi desain pada template HTML yang telah dibuat.
+Perubahan sebenernya terjadi pada html html nya. Terutama di bagian card_product. Kali ini pembagian struktur halaman/html nya menggunakan class-class yang sudah disediakan oleh tailwind.
 </details>
