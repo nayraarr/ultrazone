@@ -190,9 +190,9 @@ Jika terdapat dua atau lebih aturan css yang diterapkan pada element yang sama, 
 
 ### Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design, serta jelaskan mengapa!
 Responsive design menjadi konsep yang penting karena mendukung konsistensi tampilan web dan meningkatkan pengalaman pengguna melalui seluruh device. Web membuat pengguna lebih nyaman, mudah menavigasi dan cepat diakses. Selain itu, responsive design meningkatkan efisiensi karena memudahkan develooper untuk mengelola situs dan tidak perlu membuat dua versi berbeda web untuk mobile dan desktop. Reponsive design juga meningkatkan kemungkinan user untuk melakukan tindakan yang diinginkan oleh developer (Boosts conversion rates), misalnya oembelian. Selain itu, responsive deign dapat memastikan aksesibilitas dan mengurangi biaya pembuatan. 
-// TODO
--Contoh yang sudah menerapkan responsive design :
--COntoh yang belum menerapkan responsive design:
+-Contoh yang sudah menerapkan responsive design : youtube.com, tampilan menu di hp tidak terlihat, tetapi jika tombol burger dipencet, menu nya jadi terlihat.
+-COntoh yang belum menerapkan responsive design : aren cs ui, tambilan di hp dan di laptop sama saja.
+LINK : https://drive.google.com/drive/folders/1jz594u6uPnwvoTHAmoaP7rDeiHzeM9zO?usp=sharing
 
 ### Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
 Padding adalah komponen css yang memberikan ruang di dalam elemen untuk mencegah konten menempel langsung ke tepi elemennya dan menambah area dalam elemen. Komponen padding memungkinkan kita mengontrol seberapa dekat konten dengan batas luar elemen. Sedangkan margin adalah komponen css yang memberikan ruang di luar border elemen untuk membuat jarak antar elemen agar tidak terlalu rapat. Perbedaannya dengan padding adalah margin mengatur jarak di luar elemen, sedangkan padding di dalam elemen. Adapun, border  adalah komponen css berupa tampilan garis yang terlihat atau tidak terlihat yang mengelilingi sebuah elemen, border ini akan membungkus 'konten dari elemen' dan 'paddingnya'. Border berguna untuk meberikan batas pemisah antar elemen. 
