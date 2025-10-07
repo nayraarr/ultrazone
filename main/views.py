@@ -189,4 +189,14 @@ def delete_product(request, id):
     product.delete()
     return HttpResponseRedirect(reverse("main:show_main"))
 
+# Menghapus Product dengan AJAX
+@require_POST
+def delete_product_ajax(request, id):
+    try:
+        product = get_object_or_404(Product, pk=id)
+        product.delete()
+        return JsonResponse({"success": True, "message": "Product deleted successfully!"})
+    except Exception as e:
+        return JsonResponse({"success": False, "message": str(e)})
+
 

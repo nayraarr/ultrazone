@@ -67,6 +67,47 @@
     <!-- Product Grid -->
     <div id="grid" class="hidden"></div>
 
+    <!-- Elegant Delete Confirmation Modal -->
+    <div id="deleteModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+      <div class="bg-white rounded-2xl shadow-2xl w-96 max-w-full p-6 animate-fade-in">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-semibold text-gray-800">Delete Product</h3>
+          <button id="cancelDelete" class="text-gray-400 hover:text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 8.586L15.95 2.636a1 1 0 111.414 1.414L11.414 10l5.95 5.95a1 1 0 01-1.414 1.414L10 11.414l-5.95 5.95a1 1 0 01-1.414-1.414L8.586 10 2.636 4.05a1 1 0 011.414-1.414L10 8.586z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Body -->
+        <p class="text-gray-600 mb-6">
+          Are you sure you want to delete this product? This action cannot be undone.
+        </p>
+
+        <!-- Footer / Buttons -->
+        <div class="flex justify-end gap-3">
+          <button id="cancelDelete" class="px-5 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">
+            Cancel
+          </button>
+          <button id="confirmDelete" class="px-5 py-2 bg-[#B0183D] text-white rounded-lg hover:bg-[#b0183e70] transition">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      @keyframes fade-in {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+      }
+      .animate-fade-in {
+        animation: fade-in 0.2s ease-out forwards;
+      }
+    </style>
+
+
     <!-- Empty -->
     <div id="empty" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
       <div class="w-32 h-32 mx-auto mb-4">
@@ -161,7 +202,10 @@ function createProductCard(product) {
         <div class="flex items-center justify-between pt-2 border-gray-100">
           <div class="flex space-x-2 ml-auto mt-3">
             <a href="${editUrl}" class="text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm px-4 py-2">Edit</a>
-            <a href="${deleteUrl}" class="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-4 py-2" onclick="return confirm('Delete this product?')">Delete</a>
+            <button type="button" class="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-4 py-2"
+                    onclick="deleteProduct('${product.id}')">
+              Delete
+            </button>
           </div>
         </div>
       ` : ''}
@@ -209,5 +253,75 @@ document.addEventListener('productAdded', function() {
   // Refresh product data without page reload
   fetchProducts();
 });
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+
+let productIdToDelete = null;
+
+// Fungsi untuk buka modal
+function deleteProduct(id) {
+    productIdToDelete = id;
+    document.getElementById("deleteModal").classList.remove("hidden");
+}
+
+// Tombol cancel
+document.getElementById("cancelDelete").addEventListener("click", () => {
+    productIdToDelete = null;
+    document.getElementById("deleteModal").classList.add("hidden");
+});
+
+// Tombol confirm
+document.getElementById("confirmDelete").addEventListener("click", async () => {
+    if (!productIdToDelete) return; // pastikan ada product yang mau dihapus
+
+    // disable tombol sementara untuk mencegah double click
+    const btn = document.getElementById("confirmDelete");
+    btn.disabled = true;
+
+    try {
+        const response = await fetch(`/product/${productIdToDelete}/delete-ajax/`, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            }
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            showToast(data.message, '', 'success');
+            setTimeout(() => {
+                window.location.href = "{% url 'main:show_main' %}";
+            }, 1000);
+        } else {
+            showToast(data.message, '', 'error');
+        }
+
+    } catch (error) {
+        console.error(error);
+        showToast("Failed to delete product.", '', 'error');
+    } finally {
+        productIdToDelete = null;
+        document.getElementById("deleteModal").classList.add("hidden");
+        btn.disabled = false;
+    }
+});
+
+
+
 </script>
 {% endblock content %}

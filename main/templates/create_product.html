@@ -24,7 +24,7 @@
       </div>
       
       <!-- Added id="productForm" -->
-      <form id="productForm" method="POST" class="space-y-6">
+      <form id="productForm" method="POST" onsubmit="return false;" class="space-y-6">
         {% csrf_token %}
         {% for field in form %}
           <div>
