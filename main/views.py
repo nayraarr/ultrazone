@@ -10,6 +10,8 @@ from django.contrib import messages
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 @login_required(login_url='/login')
 def show_main(request):
@@ -30,6 +32,7 @@ def show_main(request):
 
     return render(request, "main.html", context)
 
+
 def create_product(request):
     form = ProductForm(request.POST or None)
     
@@ -44,6 +47,35 @@ def create_product(request):
     }
     
     return render(request, 'create_product.html', context)
+
+# Menambahkan Product dengan AJAX
+@csrf_exempt
+@require_POST
+def create_product_ajax(request):
+    name = request.POST.get("name")
+    price = request.POST.get("price")
+    description = request.POST.get("description")
+    thumbnail = request.POST.get("thumbnail")
+    rating = request.POST.get("rating")
+    category = request.POST.get("category")
+    is_discount = request.POST.get("is_discount") == 'on'
+    brand = request.POST.get("brand")
+    user = request.user
+
+    product = Product(
+        name=name,
+        price=price,
+        description=description,
+        thumbnail=thumbnail,
+        rating=rating,
+        category=category,
+        is_discount=is_discount,
+        brand=brand,
+        user=user,
+    )
+    product.save()
+
+    return HttpResponse(b"CREATED", status=201)
 
 @login_required(login_url='/login')
 def show_product(request, product_id):
@@ -92,7 +124,7 @@ def show_json_by_id(request, product_id):
             'price': product.price,
             'description': product.description,
             'thumbnail': product.thumbnail if product.thumbnail else None,
-            'category': product.category,
+            'category': product.get_category_display(),
             'is_discount': product.is_discount,
             'rating': float(product.rating) if product.rating is not None else 0,
             'user_id': product.user_id,

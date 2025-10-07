@@ -17,7 +17,7 @@
     </div>
 
     <!-- Filter -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 bg-white rounded-lg border border-gray-200 p-4">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 bg-white rounded-lg border border-gray-200 p-4">
       <div class="flex space-x-3 mb-4 sm:mb-0">
         <a id="filter-all" class="bg-[#B0183D] text-white px-4 py-2 rounded-md font-medium transition-colors hover:bg-[#8E0F2F]">
           All Product
@@ -30,6 +30,27 @@
         <div class="text-sm text-gray-500">Last login: {{ last_login }}</div>
       {% endif %}
     </div>
+
+    <!-- Button to refresh and open modal -->
+    <button onclick="showModal()" class="inline-flex items-center px-4 py-2 bg-white text-green-600 font-semibold outline outline-2 outline-green-600 outline-offset-[-2px] rounded-md hover:bg-green-600 hover:text-white transition-colors mb-4">
+      Create News by AJAX
+    </button>
+
+    <!-- Wrapper div containing two sections combined as one -->
+    <div class="flex items-center gap-2 w-full mb-4">
+      <!-- Tombol refresh (kotak kecil di kiri) -->
+      <button onclick="fetchProducts()" 
+              class="flex items-center justify-center flex-[0.2] px-4 py-2 bg-white text-[#B0183D] font-bold outline outline-2 outline-[#B0183D] rounded-md hover:bg-[#B0183D] hover:text-white transition-colors">
+        &#8635;
+      </button>
+
+      <!-- Tombol add product (panjang di kanan) -->
+      <button onclick="showModal()" 
+        class="flex items-center justify-center flex-[4] px-4 py-2 bg-[#b0183e17] text-[#B0183D] font-semibold outline outline-2 outline-[#B0183D] rounded-md hover:bg-[#B0183D] hover:text-white transition-colors">
+        Add Product
+      </button>
+    </div>
+
 
     <!-- Loading -->
     <div id="loading" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
@@ -177,9 +198,16 @@ async function fetchProducts() {
   }
 }
 
+
 allBtn.addEventListener('click', () => {activeFilter='all'; filterProducts();});
 myBtn.addEventListener('click', () => {activeFilter='my'; filterProducts();});
 
 fetchProducts();
+
+// Add event listener to detect new product
+document.addEventListener('productAdded', function() {
+  // Refresh product data without page reload
+  fetchProducts();
+});
 </script>
 {% endblock content %}
