@@ -218,3 +218,24 @@ Pada template card tiap produk, buat button yang mengarah pada function edit_pro
 2. Kustomisasi desain pada template HTML yang telah dibuat.
 Perubahan sebenernya terjadi pada html html nya. Terutama di bagian card_product. Kali ini pembagian struktur halaman/html nya menggunakan class-class yang sudah disediakan oleh tailwind.
 </details>
+
+<details>
+<summary>Tugas Individu 5</summary>
+
+### Apa perbedaan antara synchronous request dan asynchronous request?
+Perbedaannya terletak pada proses eksekusi yang dilakukan. Pada synchronus request, kode dieksekusi secara berurutan atau satu per satu. Program harus menyelesaikan tugas pertama sebelum mengerjakan tugas keduanya. Synchronus dapat membuat program terjebak dalam satu tugas dalam waktu yang lama, sebelum akhirnya melanjutkan tugas berikutnya. Hal ini membuat kinerja menjadi lambat dan kurang responsif. Sedangkan, dalam Asynchronus, pengeksekusian program dilakukan secara bersamaan. Program tidak perlu menunggu tugas pertama selesai untuk melakukan tugas kedua. Setiap tugas yang dijalankan, dieksekusi secara independen satu sama lain. Hal ini membuat efisiensi dan kecepatan lebih besar dalam pengeksekusian beberapa tugas sekaligus.
+
+### Bagaimana AJAX bekerja di Django (alur request–response)?
+PROSES AJAX BEKERJA:
+Ketika suatu event terjadi di browser, javascript akan menangkangkap event tersebut. Setelah itu javascript akan membuat objek XMLHttpRequest dan mengirimkan nya ke server. Request ini akan diterima oleh url tertentu di django. Setelah itu, django menerima dan memproses request di views yang sesuai. Setelah itu, django server akan mengembaikan response dalam bentuk json, bukan seluruh page. Karena itu, tidak ada reload halaman yang terjadi, hanya pengiriman data dalam ukuran kecil. Di client, javascript menerima data json dari django server lalu mengubah tampilan dom sesuai data yang diterima. Akhirnya hanya sebagian kecil halaman saja yang berubah.
+
+### Apa keuntungan menggunakan AJAX dibandingkan render biasa di Django?
+Karena penggunaan AJAX memungkinkan untuk web page berkomunikasi tanpa me-reload seluruh halaman, hal ini membuat program lebih efisien, responsif, dan cepat. Pengeksekusian program dilakukan di sisi client, bukan dari server, menampilkan perubahan secara cepat pada halaman tanpa menunggu server. Beban pekerjaan server juga menjadi lebih ringan karena hanya mengambil informasi yang dibutuhkan. Selain itu, program bisa dijalankan secara event-driven. Program tidak perlu terus menerus me-refresh halaman, tetapi hanya bereaksi ketika pengguna menyebabkan suatu event. Program menjadi lebih interaktif tanpa harus me-reload halaman. 
+
+### Bagaimana cara memastikan keamanan saat menggunakan AJAX untuk fitur Login dan Register di Django?
+Cara memastikan keamanannya dengan memberikan perlindungan berupa CSRF token pada form login dan register. Setiap client me-load form login dan register, server membuatkan token csrf nya dan mengirimkannya pada client. Dengan begitu, setiap request yang dikirim oleh client akan diperiksa terlebih dahulu token scrf nya di cookie oleh server dan di cek apakah cocok atau tidak. Selain itu, django juga memiliki library tambahan berupa `django-ratelimit` untuk membatasi client mengirim request ke suatu endpoint. Perlindungan ini membuat akun client lebih aman karena mencegah adanya bruteforce yang dikirim oleh attacker. Jika request yang dikirim sudah terlalu banyak, django akan memberikan respon 429 (Too Many Request). Selain itu, library ini mencegah pembuatan banyak akun yg otomatis. Requet dalam waktu tertentu akan tercatat dan dihentikan apabila sudah mencapai batasnya.
+
+### Bagaimana AJAX mempengaruhi pengalaman pengguna (User Experience) pada website?
+Dengan AJAX, website akan lebih menarik, interaktif, dan terasa lebih cepat digunakan karena tidak memperbarui keseluruhan halaman. Client tidak perlu pindah halaman untuk mengisi sebuah form. Selain itu, client akan merasa lebih puas karena ia tidak perlu selalu melakukan refresh untuk melihat data terbaru dari sebuah web. AJAX menjamin data terbaru ditampilkan oleh DOM. AJAX juga dapat membuat pengguna tetap berada di konteks yang sama tanpa reload. AJAX dapat menyimpan halaman secara otomatis tanpa mengganggu input yang sebelumnya telah dimasukkan. Pengguna tidak akan kehilangan data yang sedang diinput. Dengan AJAX, website menjadi efisien karena menghemat waktu loading yg disebabkan oleh memuat halaman baru. 
+
+</details>

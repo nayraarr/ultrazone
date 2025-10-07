@@ -33,7 +33,11 @@
       {% endif %}
     </div>
 
-
+    <button
+      onclick="showToast('Sample Title', 'This is a sample message for the toast notification.')"
+    >
+      Click to Show Toast
+    </button>
 
     <!-- Product Grid -->
     {% if not product_list %}
@@ -57,3 +61,4 @@
   </div>
 </div>
 {% endblock content %}
+
