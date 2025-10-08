@@ -136,6 +136,7 @@ def show_json_by_id(request, product_id):
     except Product.DoesNotExist:
         return JsonResponse({'detail': 'Not found'}, status=404)
     
+@csrf_exempt  # Hanya untuk AJAX POST, pastikan CSRF token dikirim dari client
 def register(request):
     form = UserCreationForm()
     
@@ -143,12 +144,27 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Your account has been successfully created!',
+                    'redirect': '/login/'  # URL untuk redirect setelah sukses
+                })
             messages.success(request, 'Your account has been successfully created')
             return redirect('main:login')
+        else:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                errors = form.errors.as_json()
+                return JsonResponse({
+                    'success': False,
+                    'message': 'Registration failed.',
+                    'errors': errors
+                }, status=400)
     
-    context = {'form':form}
+    context = {'form': form}
     return render(request, 'register.html', context)
 
+@csrf_exempt
 def login_user(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
@@ -156,22 +172,48 @@ def login_user(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            response = HttpResponseRedirect(reverse("main:show_main"))
-            response.set_cookie('last_login', str(datetime.datetime.now()))
-            return response
+            last_login = str(datetime.datetime.now())
+            
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                response = JsonResponse({
+                    'success': True,
+                    'message': 'Welcome back! Redirecting to homepage...',
+                    'redirect': reverse('main:show_main')
+                })
+                response.set_cookie('last_login', last_login)
+                return response
+            else:
+                response = HttpResponseRedirect(reverse("main:show_main"))
+                response.set_cookie('last_login', last_login)
+                return response
+        else:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                errors = form.errors.as_json()
+                return JsonResponse({
+                    'success': False,
+                    'message': 'Invalid username or password.',
+                    'errors': errors
+                }, status=400)
     
-    else:
-        form = AuthenticationForm(request)
-    
-    context = {'form':form}
+    form = AuthenticationForm(request)
+    context = {'form': form}
     return render(request, 'login.html', context)
 
-
+@csrf_exempt
 def logout_user(request):
     logout(request)
-    response = HttpResponseRedirect(reverse('main:login'))
-    response.delete_cookie('last_login')
-    return redirect('main:login')
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        response = JsonResponse({
+            'success': True,
+            'message': 'You have been logged out successfully.',
+            'redirect': reverse('main:login')
+        })
+        response.delete_cookie('last_login')
+        return response
+    else:
+        response = HttpResponseRedirect(reverse('main:login'))
+        response.delete_cookie('last_login')
+        return response
 
 from .forms import ProductForm
 
@@ -205,8 +247,6 @@ def edit_product(request, id):
         product.save()
 
         return JsonResponse({"success": True})
-
-
 
 def delete_product(request, id):
     product = get_object_or_404(Product, pk=id)
