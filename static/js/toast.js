@@ -1,7 +1,8 @@
-function showToast(title, message, type = 'normal', duration = 3000) {
+function showToast(title, message, type = 'normal', duration = 4000) {
     const toastComponent = document.getElementById('toast-component');
     const toastTitle = document.getElementById('toast-title');
     const toastMessage = document.getElementById('toast-message');
+    const toastDismiss = document.getElementById('toast-dismiss');
     
     if (!toastComponent) return;
 
@@ -30,8 +31,14 @@ function showToast(title, message, type = 'normal', duration = 3000) {
     toastComponent.classList.remove('opacity-0', 'translate-y-64');
     toastComponent.classList.add('opacity-100', 'translate-y-0');
 
+    toastDismiss.onclick = () => {
+        toastComponent.classList.remove('opacity-100', 'translate-y-0');
+        toastComponent.classList.add('opacity-0', 'translate-y-64');
+    };
+
     setTimeout(() => {
         toastComponent.classList.remove('opacity-100', 'translate-y-0');
         toastComponent.classList.add('opacity-0', 'translate-y-64');
     }, duration);
 }
+

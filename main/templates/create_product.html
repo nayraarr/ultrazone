@@ -48,7 +48,7 @@
           <a href="{% url 'main:show_main' %}" class="order-2 sm:order-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-gray-50 transition-colors text-center">
             Cancel
           </a>
-          <button type="submit" class="order-1 sm:order-2 flex-1 bg-[#B0183D] text-white px-6 py-3 rounded-md font-medium hover:bg-[#b0183e85] transition-colors">
+          <button type="submit" class="order-1 sm:order-2 flex-1 bg-[#B0183D] text-white px-6 py-3 rounded-md font-medium hover:bg-[#b0183e85] transition-colors" id="submitBtn">
             Publish Product
           </button>
         </div>
@@ -99,7 +99,7 @@ document.getElementById("productForm").addEventListener("submit", async function
         this.reset();
 
         // tampilkan toast notifikasi
-        showToast('Product added successfully!', '', 'success');
+        showToast('Success', 'Product added successfully!', '');
 
         // opsional: dispatch event kalau ada listener
         document.dispatchEvent(new CustomEvent('productAdded'));
@@ -111,7 +111,7 @@ document.getElementById("productForm").addEventListener("submit", async function
 
     } catch (error) {
         console.error(error);
-        showToast('Failed to add product.', '', 'error');
+        showToast('Added failed", data.error || "Failed to add product.", 'error');
     }
 });
 </script>

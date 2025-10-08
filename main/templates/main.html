@@ -22,7 +22,7 @@
       </div>
       
     </section>
-
+    
 
     <!-- Features Section -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid md:grid-cols-3 gap-8 text-center">
@@ -426,17 +426,19 @@ document.getElementById("confirmDelete").addEventListener("click", async () => {
         const data = await response.json();
 
         if (data.success) {
-            showToast(data.message, '', 'success');
+            showToast("Delete success", "Product deleted successfully!", 'success');
+            document.dispatchEvent(new CustomEvent("productUpdated"));
+
             setTimeout(() => {
                 window.location.href = "{% url 'main:show_main' %}";
             }, 1000);
         } else {
-            showToast(data.message, '', 'error');
+            showToast("Delete failed", data.error || "Failed to delete product.", 'error');
         }
 
     } catch (error) {
         console.error(error);
-        showToast("Failed to delete product.", '', 'error');
+        showToast("Delete failed", data.error || "Failed to delete product.", 'error');
     } finally {
         productIdToDelete = null;
         document.getElementById("deleteModal").classList.add("hidden");
@@ -503,10 +505,10 @@ function showEditModal(id) {
 
     if (result.success) {
       hideEditModal();
-      showToast("Product updated successfully!", "", "success");
+      showToast("Success", "Product updated successfully!", "success");
       document.dispatchEvent(new CustomEvent("productUpdated"));
     } else {
-      showToast("Failed to update product.", "", "error");
+      showToast("Error", result.error || "Failed to update product.", "error");
     }
   });
 

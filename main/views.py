@@ -199,6 +199,7 @@ def login_user(request):
     context = {'form': form}
     return render(request, 'login.html', context)
 
+
 @csrf_exempt
 def logout_user(request):
     logout(request)

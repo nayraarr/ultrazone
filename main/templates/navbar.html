@@ -156,7 +156,7 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    showToast('You have been logged out successfully.', 'Logout Successful', 'success');
+                    showToast( 'Logout Successful', 'You have been logged out successfully.', 'success');
                     setTimeout(() => {
                         window.location.href = result.redirect;
                     }, 1000);

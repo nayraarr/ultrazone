@@ -115,10 +115,18 @@
         hideModal();
 
         // Show toast notification
-        showToast('Product added successfully!', '', 'success');
+        showToast('Success', 'Product added successfully!', 'success');
+
+
 
         // Dispatch custom event untuk notify main.html tentang produk baru
         document.dispatchEvent(new CustomEvent('productAdded'));
+
+        // Redirect ke halaman utama setelah 1 detik (biar toast sempat muncul)
+        setTimeout(() => {
+                window.location.href = "{% url 'main:show_main' %}";
+            }, 1000);
+            
         
     } catch (error) {
         console.error(error);
