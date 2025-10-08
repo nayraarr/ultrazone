@@ -238,4 +238,5 @@ Cara memastikan keamanannya dengan memberikan perlindungan berupa CSRF token pad
 ### Bagaimana AJAX mempengaruhi pengalaman pengguna (User Experience) pada website?
 Dengan AJAX, website akan lebih menarik, interaktif, dan terasa lebih cepat digunakan karena tidak memperbarui keseluruhan halaman. Client tidak perlu pindah halaman untuk mengisi sebuah form. Selain itu, client akan merasa lebih puas karena ia tidak perlu selalu melakukan refresh untuk melihat data terbaru dari sebuah web. AJAX menjamin data terbaru ditampilkan oleh DOM. AJAX juga dapat membuat pengguna tetap berada di konteks yang sama tanpa reload. AJAX dapat menyimpan halaman secara otomatis tanpa mengganggu input yang sebelumnya telah dimasukkan. Pengguna tidak akan kehilangan data yang sedang diinput. Dengan AJAX, website menjadi efisien karena menghemat waktu loading yg disebabkan oleh memuat halaman baru. 
 
+tes
 </details>
