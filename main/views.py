@@ -88,6 +88,7 @@ def show_xml(request):
     xml_data = serializers.serialize("xml", product_list)
     return HttpResponse(xml_data, content_type="application/xml")
 
+# Menampilkan data dalam format JSON AJAX
 def show_json(request):
     product_list = Product.objects.all()
     data = [
@@ -115,6 +116,7 @@ def show_xml_by_id(request, product_id):
     except Product.DoesNotExist:
         return HttpResponse(status=404)
     
+# Menampilkan data dalam format JSON berdasarkan ID dengan AJAX
 def show_json_by_id(request, product_id):
     try:
         product = Product.objects.select_related('user').get(pk=product_id)
@@ -171,18 +173,40 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return redirect('main:login')
 
+from .forms import ProductForm
+
+@csrf_exempt
 def edit_product(request, id):
     product = get_object_or_404(Product, pk=id)
-    form = ProductForm(request.POST or None, instance=product)
-    if form.is_valid() and request.method == 'POST':
-        form.save()
-        return redirect('main:show_main')
 
-    context = {
-        'form': form
-    }
+    if request.method == "GET":
+        data = {
+            "id": product.id,
+            "name": product.name,
+            "price": product.price,
+            "description": product.description,
+            "thumbnail": product.thumbnail,
+            "rating": product.rating,
+            "category": product.category,
+            "is_discount": product.is_discount,
+            "brand": product.brand,
+        }
+        return JsonResponse(data)
 
-    return render(request, "edit_product.html", context)
+    elif request.method == "POST":
+        product.name = request.POST.get("name")
+        product.price = request.POST.get("price")
+        product.description = request.POST.get("description")
+        product.thumbnail = request.POST.get("thumbnail")
+        product.rating = request.POST.get("rating")
+        product.category = request.POST.get("category")
+        product.is_discount = request.POST.get("is_discount") == "on"
+        product.brand = request.POST.get("brand")
+        product.save()
+
+        return JsonResponse({"success": True})
+
+
 
 def delete_product(request, id):
     product = get_object_or_404(Product, pk=id)

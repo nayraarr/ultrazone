@@ -10,11 +10,35 @@
 <div class="bg-gray-50 w-full pt-16 min-h-screen">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-    <!-- Header -->
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">Ultrazone Football Shop</h1>
-      <p class="text-gray-600">Authentic kits, fanwear, and football essentials for every supporter</p>
-    </div>
+      <!-- Hero Section -->
+    <section 
+        class="relative bg-[#B0183D] text-white rounded-3xl overflow-hidden" 
+        style="background-image: url('/static/image/shop.png'); background-size: cover; background-position: center;">
+      
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center bg-black/40 rounded-3xl">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Ultrazone Football Shop</h1>
+        <p class="text-lg md:text-xl mb-8">Authentic kits, fanwear, and football essentials for every supporter</p>
+        <a href="#products" class="bg-white text-[#B0183D] px-6 py-3 rounded-full font-semibold shadow hover:bg-gray-100 transition">Shop Now</a>
+      </div>
+      
+    </section>
+
+
+    <!-- Features Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid md:grid-cols-3 gap-8 text-center">
+      <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-2">Authentic Kits</h3>
+        <p class="text-gray-600">Official football kits for your favorite teams, made with high-quality materials.</p>
+      </div>
+      <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-2">Fanwear</h3>
+        <p class="text-gray-600">Show your team spirit with our wide range of fanwear and accessories.</p>
+      </div>
+      <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-2">Essentials</h3>
+        <p class="text-gray-600">Everything you need for match days, from scarves to training gear.</p>
+      </div>
+    </section>
 
     <!-- Filter -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 bg-white rounded-lg border border-gray-200 p-4">
@@ -30,11 +54,6 @@
         <div class="text-sm text-gray-500">Last login: {{ last_login }}</div>
       {% endif %}
     </div>
-
-    <!-- Button to refresh and open modal -->
-    <button onclick="showModal()" class="inline-flex items-center px-4 py-2 bg-white text-green-600 font-semibold outline outline-2 outline-green-600 outline-offset-[-2px] rounded-md hover:bg-green-600 hover:text-white transition-colors mb-4">
-      Create News by AJAX
-    </button>
 
     <!-- Wrapper div containing two sections combined as one -->
     <div class="flex items-center gap-2 w-full mb-4">
@@ -67,7 +86,7 @@
     <!-- Product Grid -->
     <div id="grid" class="hidden"></div>
 
-    <!-- Elegant Delete Confirmation Modal -->
+    <!-- Delete Confirmation Modal -->
     <div id="deleteModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
       <div class="bg-white rounded-2xl shadow-2xl w-96 max-w-full p-6 animate-fade-in">
         <!-- Header -->
@@ -87,7 +106,7 @@
 
         <!-- Footer / Buttons -->
         <div class="flex justify-end gap-3">
-          <button id="cancelDelete" class="px-5 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">
+          <button id="cancelDeleteBtn" class="px-5 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">
             Cancel
           </button>
           <button id="confirmDelete" class="px-5 py-2 bg-[#B0183D] text-white rounded-lg hover:bg-[#b0183e70] transition">
@@ -120,6 +139,91 @@
       </a>
     </div>
   </div>
+
+  <!-- Edit Product Modal -->
+<div id="editModal" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div id="editModalContent" class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/5 md:w-1/2 lg:w-2/5 xl:w-1/3 max-h-screen overflow-y-auto opacity-0 scale-95 transition-all duration-150">
+    
+    <!-- Header -->
+    <div class="flex items-center justify-between p-4 border-b">
+      <div>
+        <h3 class="text-xl font-semibold text-gray-900">Edit Product</h3>
+        <p class="text-sm text-gray-600 mt-1">Update your product details.</p>
+      </div>
+      <button type="button" class="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5" onclick="hideEditModal()">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 
+          4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 
+          4.293a1 1 0 01-1.414-1.414L8.586 
+          10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="px-6 py-4 space-y-6">
+      <form id="editProductForm">
+        {% csrf_token %}
+        <input type="hidden" id="edit_id" name="id">
+
+        <div class="mb-4">
+          <label for="edit_name_title" class="block text-sm font-medium text-gray-700">Name</label>
+          <input type="text" id="edit_name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" placeholder="Enter product name" required>
+        </div>
+
+        <div class="mb-4">
+          <label for="edit_price_title" class="block text-sm font-medium text-gray-700">Price</label>
+          <input type="number" step="0.01" id="edit_price" name="price" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" placeholder="Enter product price" required>
+        </div>
+
+        <div class="mb-4">
+          <label for="edit_description" class="block text-sm font-medium text-gray-700">Description</label>
+          <textarea id="edit_description" name="description" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" placeholder="Enter product description" required></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="edit_thumbnail" class="block text-sm font-medium text-gray-700">Thumbnail URL</label>
+          <input type="url" id="edit_thumbnail" name="thumbnail" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" placeholder="https://example.com/image.jpg">
+        </div>
+
+        <div class="mb-4">
+          <label for="edit_rating" class="block text-sm font-medium text-gray-700">Rating</label>
+          <input type="number" step="0.1" min="0" max="5" id="edit_rating" name="rating" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" placeholder="0.0">
+        </div>
+
+        <div class="mb-4">
+          <label for="edit_category" class="block text-sm font-medium text-gray-700">Category</label>
+          <select id="edit_category" name="category" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" required>
+            <option value="">Choose a category</option>
+            <option value="jersey">Jersey</option>
+            <option value="footwear">Footwear</option>
+            <option value="scarf">Scarf</option>
+            <option value="jacket">Jacket</option>
+            <option value="hat">Hat</option>
+            <option value="accessories">Accessories</option>
+          </select>
+        </div>
+
+        <div class="mb-4 flex items-center">
+          <input type="checkbox" id="edit_is_discount" name="is_discount" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded">
+          <label for="edit_is_discount" class="ml-2 text-sm font-medium text-gray-900">Is Discount</label>
+        </div>
+
+        <div class="mb-4">
+          <label for="edit_brand" class="block text-sm font-medium text-gray-700">Brand</label>
+          <input type="text" id="edit_brand" name="brand" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" placeholder="Enter product brand">
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex flex-col sm:flex-row gap-4 p-6 border-t border-gray-200 rounded-b">
+      <button type="button" class="order-2 sm:order-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-gray-50 transition-colors" onclick="hideEditModal()">Cancel</button>
+      <button type="submit" form="editProductForm" id="submitEditProduct" class="order-1 sm:order-2 flex-1 bg-[#B0183D] text-white px-6 py-3 rounded-md font-medium hover:bg-[#8E0F2F] transition-colors">Save Changes</button>
+    </div>
+  </div>
+</div>
+
 </div>
 
 <script>
@@ -201,11 +305,18 @@ function createProductCard(product) {
       ${(CURRENT_USER_ID && CURRENT_USER_ID === String(product.user_id)) ? `
         <div class="flex items-center justify-between pt-2 border-gray-100">
           <div class="flex space-x-2 ml-auto mt-3">
-            <a href="${editUrl}" class="text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm px-4 py-2">Edit</a>
-            <button type="button" class="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-4 py-2"
+            <a href="javascript:void(0);" 
+            class="text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm px-4 py-2"
+            onclick="showEditModal('${product.id}')">
+            Edit
+          </a>
+
+            <button type="button"
+                    class="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-4 py-2"
                     onclick="deleteProduct('${product.id}')">
               Delete
             </button>
+
           </div>
         </div>
       ` : ''}
@@ -254,6 +365,12 @@ document.addEventListener('productAdded', function() {
   fetchProducts();
 });
 
+// Add event listener to detect edited product
+document.addEventListener('productUpdated', function() {
+  // Refresh product data without page reload
+  fetchProducts();
+});
+
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
@@ -280,6 +397,12 @@ function deleteProduct(id) {
 
 // Tombol cancel
 document.getElementById("cancelDelete").addEventListener("click", () => {
+    productIdToDelete = null;
+    document.getElementById("deleteModal").classList.add("hidden");
+});
+
+// Tombol cancel 2
+document.getElementById("cancelDeleteBtn").addEventListener("click", () => {
     productIdToDelete = null;
     document.getElementById("deleteModal").classList.add("hidden");
 });
@@ -321,7 +444,71 @@ document.getElementById("confirmDelete").addEventListener("click", async () => {
     }
 });
 
+function showEditModal(id) {
+  const modal = document.getElementById('editModal');
+  const modalContent = document.getElementById('editModalContent');
 
+  modal.classList.remove('hidden');
+  setTimeout(() => {
+    modalContent.classList.remove('opacity-0', 'scale-95');
+    modalContent.classList.add('opacity-100', 'scale-100');
+  }, 50);
+
+  // Fetch data produk dan isi form
+  fetch(`/product/${id}/edit/`)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Failed to fetch product data');
+      }
+      return res.json();
+    })
+    .then(response => {
+      // Langsung gunakan response, bukan response.data
+      document.getElementById('edit_id').value = response.id;
+      document.getElementById('edit_name').value = response.name;
+      document.getElementById('edit_price').value = response.price;
+      document.getElementById('edit_description').value = response.description;
+      document.getElementById('edit_thumbnail').value = response.thumbnail || '';
+      document.getElementById('edit_rating').value = response.rating || '';
+      document.getElementById('edit_category').value = response.category || '';
+      document.getElementById('edit_is_discount').checked = response.is_discount;
+      document.getElementById('edit_brand').value = response.brand || '';
+    })
+    .catch(error => {
+      console.error('Error fetching product data:', error);
+      showToast('Failed to load product data.', '', 'error');
+    });
+}
+
+  function hideEditModal() {
+    const modal = document.getElementById('editModal');
+    const modalContent = document.getElementById('editModalContent');
+    modalContent.classList.remove('opacity-100', 'scale-100');
+    modalContent.classList.add('opacity-0', 'scale-95');
+    setTimeout(() => modal.classList.add('hidden'), 150);
+  }
+
+  document.getElementById("editProductForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const id = document.getElementById("edit_id").value;
+    const formData = new FormData(e.target);
+
+    const response = await fetch(`/product/${id}/edit/`, {
+      method: "POST",
+      body: formData,
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      hideEditModal();
+      showToast("Product updated successfully!", "", "success");
+      document.dispatchEvent(new CustomEvent("productUpdated"));
+    } else {
+      showToast("Failed to update product.", "", "error");
+    }
+  });
 
 </script>
 {% endblock content %}
