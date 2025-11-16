@@ -56,6 +56,7 @@ tidak ada, asisten dosen sangat membantu.
 
 <details>
 <summary>Tugas Individu 3</summary>
+
 ### Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
 Dalam pengimplementasian platform, data delivery berperan sebagai alat komunikasi antarpihak. Data delivery menentukan hasil dari proses manipulasi data nya dan apa yang akan ditampilkan oleh interfacenya. Misalnya, ketika pihak A perlu memfilter produk berdasarkan harganya. Pihak A akan meminta data product ke pihak B. Lalu, pihak B akan melakukan parsing data dalam format json kepada pihak A (data delivery). Barulah pihak A akan melakukan kalkulasi sebelum akhirnya dikirim ke interface user (data delivery). Data yang dikirim oleh pihak A juga menentukan apa yang dilihat oleh client.
 
