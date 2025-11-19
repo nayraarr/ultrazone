@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User
 import json
+from django.contrib.auth import logout as auth_logout
 
 
 @csrf_exempt
@@ -17,6 +18,7 @@ def login(request):
             # Login status successful.
             return JsonResponse({
                 "username": user.username,
+                "user_id": user.id,
                 "status": True,
                 "message": "Login successful!"
                 # Add other data if you want to send data to Flutter.
@@ -70,3 +72,19 @@ def register(request):
             "status": False,
             "message": "Invalid request method."
         }, status=400)
+        
+@csrf_exempt
+def logout(request):
+    username = request.user.username
+    try:
+        auth_logout(request)
+        return JsonResponse({
+            "username": username,
+            "status": True,
+            "message": "Logged out successfully!"
+        }, status=200)
+    except:
+        return JsonResponse({
+            "status": False,
+            "message": "Logout failed."
+        }, status=401)
